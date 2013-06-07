@@ -45,9 +45,11 @@ import java.util.Set;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.glassfish.maven.plugin.Resource.Type;
+import org.glassfish.maven.plugin.command.AddAsadminChonTask;
 import org.glassfish.maven.plugin.command.AddResourcesCommand;
 import org.glassfish.maven.plugin.command.ArtefactDeployCommand;
 import org.glassfish.maven.plugin.command.CopyExternalLibrariesCommand;
+import org.glassfish.maven.plugin.command.CopyFiles;
 import org.glassfish.maven.plugin.command.CreateAuthRealmCommand;
 import org.glassfish.maven.plugin.command.CreateConnectorPoolFactoryCommand;
 import org.glassfish.maven.plugin.command.CreateConnectorResourceCommand;
@@ -59,9 +61,14 @@ import org.glassfish.maven.plugin.command.CreateJMSResourceCommand;
 import org.glassfish.maven.plugin.command.CreateJVMOptionsCommand;
 import org.glassfish.maven.plugin.command.CreateJavaMailResourceCommand;
 import org.glassfish.maven.plugin.command.CreateMessageSecurityProviderCommand;
+import org.glassfish.maven.plugin.command.CreatePrimitiveJNDIResource;
+import org.glassfish.maven.plugin.command.CreatePropertiesJNDIResource;
+import org.glassfish.maven.plugin.command.DeleteJVMOptionsCommand;
 import org.glassfish.maven.plugin.command.DisableSecureAdminCommand;
 import org.glassfish.maven.plugin.command.EnableSecureAdminCommand;
+import org.glassfish.maven.plugin.command.ReplaceInConfigFile;
 import org.glassfish.maven.plugin.command.SetCommand;
+import org.glassfish.maven.plugin.command.SetLogAttributeCommand;
 import org.glassfish.maven.plugin.command.StartDomainCommand;
 import org.glassfish.maven.plugin.command.StopDomainCommand;
 
@@ -85,15 +92,22 @@ public class CreateDomainMacro {
 	public void execute(ProcessBuilder processBuilder)
 			throws MojoExecutionException, MojoFailureException {
 		new CreateDomainCommand(sharedContext, domain).execute(processBuilder);
+		if(domain.isSavePassword()){
+			String passFile = domain.getDirectory()+"/"+domain.getName()+"/config/passfile";
+			sharedContext.copyPasswordFile(passFile);
+			sharedContext.setPasswordFile(passFile);
+		}
 		new CopyExternalLibrariesCommand(sharedContext).execute();
 		new StartDomainCommand(sharedContext, domain).execute(processBuilder);
 		try {
 			if (domain.getDeployables() != null) {
 				deployAdditionalComponenets(processBuilder);
 			}
+			deleteJVMOptions(processBuilder);
 			createJVMOptions(processBuilder);
 			addResources(processBuilder);
 			setProperties(processBuilder);
+			setLoggingProperties(processBuilder);
 			createAuth(processBuilder);
 			enableSecureAdmin(processBuilder);
 		} finally {
@@ -101,6 +115,44 @@ public class CreateDomainMacro {
 			if (domain.isStarted()) {
 				new StopDomainCommand(sharedContext, domain).execute(processBuilder);
 			}
+		}
+		replaceInConfigFiles();
+		copyFiles();
+		addAsadminCronTasks(processBuilder);
+	}
+	
+	private void setLoggingProperties(ProcessBuilder processBuilder) throws MojoFailureException, MojoExecutionException{
+		if(domain.getLoginProperties()!=null){
+			for(Property property:domain.getLoginProperties()){
+				new SetLogAttributeCommand(sharedContext, property).execute(processBuilder);
+			}
+		}
+	}
+	
+	private void addAsadminCronTasks(ProcessBuilder processBuilder) throws MojoFailureException, MojoExecutionException{
+		if (System.getProperty("os.name").contains("indows")) {
+			return;
+		}
+		if(domain.getCronTasks()!=null){
+			for(AsadminChronTask task: domain.getCronTasks()){
+				if(task.isSkip()){
+					continue;
+				}
+				new AddAsadminChonTask(sharedContext, task).execute(processBuilder);
+			}
+		}
+	}
+	
+	private void copyFiles() throws MojoFailureException{
+		if(domain.getCopyFiles()!=null){
+			new CopyFiles(domain).execute();
+		}
+	}
+	
+	private void deleteJVMOptions(ProcessBuilder processBuilder)
+			throws MojoExecutionException, MojoFailureException {
+		if(domain.getDeleteJvmOptions()!=null){
+			new DeleteJVMOptionsCommand(sharedContext, domain).execute(processBuilder);
 		}
 	}
 
@@ -138,11 +190,21 @@ public class CreateDomainMacro {
 					createConnector(processBuilder, (ConnectorResource) resource);
 				} else if (resource instanceof JavaMailResource) {
 					new CreateJavaMailResourceCommand(sharedContext, domain, (JavaMailResource) resource).execute(processBuilder);
-				}
+				} else if (resource instanceof PrimitiveJndiResource) {
+					new CreatePrimitiveJNDIResource(sharedContext, domain, (PrimitiveJndiResource) resource).execute(processBuilder);
+				} else if (resource instanceof PropertiesJndiResource) {
+					new CreatePropertiesJNDIResource(sharedContext, domain, (PropertiesJndiResource) resource).execute(processBuilder);
+				} 
 			}
 		}
 		if (domain.getJmsAdministrators() != null && !domain.getJmsAdministrators().isEmpty()) {
 			setJMSPermissions();
+		}
+	}
+	
+	private void replaceInConfigFiles() throws MojoExecutionException, MojoFailureException{
+		if(domain.getReplacements()!=null){
+			new ReplaceInConfigFile(domain).execute();
 		}
 	}
 

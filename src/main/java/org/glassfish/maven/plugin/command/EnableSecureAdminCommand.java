@@ -1,7 +1,5 @@
 package org.glassfish.maven.plugin.command;
 
-import java.util.List;
-
 import org.glassfish.maven.plugin.Domain;
 import org.glassfish.maven.plugin.GlassfishMojo;
 
@@ -26,13 +24,6 @@ public class EnableSecureAdminCommand extends InteractiveAsadminCommand {
 		return "enable-secure-admin";
 	}
 	
-	@Override
-	protected List<String> getParameters() {
-		List<String> parameters = super.getParameters();
-		parameters.add("--host=" + domain.getHost());
-		parameters.add("--port=" + domain.getAdminPort());
-		return parameters;
-	}
 
 	@Override
 	protected String getErrorMessage() {

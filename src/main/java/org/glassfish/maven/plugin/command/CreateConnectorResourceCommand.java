@@ -33,8 +33,6 @@ public class CreateConnectorResourceCommand extends InteractiveAsadminCommand {
 	protected List<String> getParameters() {
         List<String> parameters = super.getParameters();
         parameters.addAll(Arrays.asList(
-                "--host", domain.getHost(),
-                "--port", String.valueOf(domain.getAdminPort()),
                 "--poolname", connectorResource.getConnectorConnectionFactory().getJndiName(),
                 connectorResource.getJndiName()
         ));

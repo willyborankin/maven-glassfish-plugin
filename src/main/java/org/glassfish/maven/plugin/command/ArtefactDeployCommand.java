@@ -37,8 +37,6 @@ public class ArtefactDeployCommand extends InteractiveAsadminCommand {
         if (artifact != null) {
             File file = artifact.getFile();
 	        parameters.addAll(Arrays.asList(
-	                "--host", domain.getHost(),
-	                "--port", String.valueOf(domain.getAdminPort()),
 	                "--upload=" + upload,
 	                "--name", deployable.getArtifactId(),
 	                file.getAbsolutePath()

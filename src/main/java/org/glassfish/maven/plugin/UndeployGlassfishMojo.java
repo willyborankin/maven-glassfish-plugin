@@ -69,7 +69,7 @@ public class UndeployGlassfishMojo extends DeploymentGlassfishMojo {
                 new StartDomainCommand(this, domain).execute(processBuilder);
             }
             for (Component component : getComponents()) {
-                new UndeployCommand(this, domain, component).execute(processBuilder);
+                new UndeployCommand(this, component).execute(processBuilder);
             }
             if (!started) {
                 new StopDomainCommand(this, domain).execute(processBuilder);

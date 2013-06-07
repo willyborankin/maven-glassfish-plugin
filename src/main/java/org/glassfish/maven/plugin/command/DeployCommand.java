@@ -36,14 +36,14 @@
 
 package org.glassfish.maven.plugin.command;
 
-import org.glassfish.maven.plugin.DeploymentGlassfishMojo;
-import org.glassfish.maven.plugin.Domain;
-import org.glassfish.maven.plugin.Component;
-
-import java.util.List;
-import java.util.Arrays;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
+
+import org.glassfish.maven.plugin.Component;
+import org.glassfish.maven.plugin.DeploymentGlassfishMojo;
+import org.glassfish.maven.plugin.Domain;
 
 /**
  * Created by dwhitla at Apr 9, 2007 4:36:52 PM
@@ -77,8 +77,6 @@ public class DeployCommand extends InteractiveAsadminCommand {
         }
         List<String> parameters = super.getParameters();
         parameters.addAll(Arrays.asList(
-                "--host", domain.getHost(),
-                "--port", String.valueOf(domain.getAdminPort()),
                 "--upload=" + upload,
                 "--name", component.getName(),
                 "--force=" + force,

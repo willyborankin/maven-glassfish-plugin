@@ -36,12 +36,15 @@
 
 package org.glassfish.maven.plugin.command;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.glassfish.maven.plugin.Domain;
 import org.glassfish.maven.plugin.GlassfishMojo;
 import org.glassfish.maven.plugin.JdbcDataSource;
-
-import java.util.Arrays;
-import java.util.List;
+import org.glassfish.maven.plugin.Property;
 
 /**
  * Created by dwhitla at Apr 10, 2007 1:21:52 PM
@@ -66,7 +69,6 @@ public class CreateJDBCConnectionPoolCommand extends InteractiveAsadminCommand {
     protected List<String> getParameters() {
         List<String> parameters = super.getParameters();
         parameters.addAll(Arrays.asList(
-                "--port", String.valueOf(domain.getAdminPort()),
                 "--restype", jdbcDataSource.getType().toString(),
                 "--validationmethod", jdbcDataSource.getValidationMethod(),
                 "--allownoncomponentcallers=" + jdbcDataSource.isAllowNonComponentCallers(),
@@ -81,7 +83,15 @@ public class CreateJDBCConnectionPoolCommand extends InteractiveAsadminCommand {
                 "--datasourceclassname", jdbcDataSource.getClassName(),
                 "--description", jdbcDataSource.getDescription()
         ));
-        addProperties(parameters, jdbcDataSource.getProperties());
+        Set<Property> properties = jdbcDataSource.getProperties();
+        HashSet<Property> notEmptyProperties = new HashSet<>();
+        for (Property property : properties) {
+        	if(property.getValue()==null || property.getValue().isEmpty()){
+        		continue;
+        	}
+        	notEmptyProperties.add(property);
+		}
+		addProperties(parameters, notEmptyProperties);
         parameters.add(jdbcDataSource.getPoolName());
         return parameters;
     }

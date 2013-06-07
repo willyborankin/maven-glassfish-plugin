@@ -36,11 +36,11 @@
 
 package org.glassfish.maven.plugin.command;
 
-import org.glassfish.maven.plugin.GlassfishMojo;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.glassfish.maven.plugin.GlassfishMojo;
 
 /**
  * Created by Dave Whitla on 24/03/2008 at 01:40:23
@@ -58,7 +58,9 @@ public abstract class InteractiveAsadminCommand extends AsadminCommand {
         return new ArrayList<String>(Arrays.asList(
                 "--interactive=false",
                 "--user", sharedContext.getUser(),
-                "--passwordfile", sharedContext.getPasswordFile()
+                "--passwordfile", sharedContext.getPasswordFile(),
+                "--host", sharedContext.getDomain().getHost(),
+                "--port", String.valueOf(sharedContext.getDomain().getAdminPort())              
         ));
     }
 }

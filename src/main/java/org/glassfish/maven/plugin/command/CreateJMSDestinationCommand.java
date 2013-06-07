@@ -76,7 +76,6 @@ public class CreateJMSDestinationCommand extends InteractiveAsadminCommand {
 			throw new IllegalArgumentException("wrong type " + destination.getType());
 		}
         parameters.addAll(Arrays.asList(
-                "--port", String.valueOf(domain.getAdminPort()),
                 "--desttype", type,
                 destination.getName()
         ));

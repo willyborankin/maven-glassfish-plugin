@@ -36,12 +36,12 @@
 
 package org.glassfish.maven.plugin.command;
 
-import org.glassfish.maven.plugin.GlassfishMojo;
-import org.glassfish.maven.plugin.Domain;
-import org.glassfish.maven.plugin.JdbcDataSource;
-
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
+
+import org.glassfish.maven.plugin.Domain;
+import org.glassfish.maven.plugin.GlassfishMojo;
+import org.glassfish.maven.plugin.JdbcDataSource;
 
 /**
  * Created by dwhitla at Apr 10, 2007 2:23:01 PM
@@ -67,7 +67,6 @@ public class CreateJDBCResourceCommand extends InteractiveAsadminCommand {
     protected List<String> getParameters() {
         List<String> parameters = super.getParameters();
         parameters.addAll(Arrays.asList(
-                "--port", String.valueOf(domain.getAdminPort()),
                 "--enabled=true",
                 "--connectionpoolid", jdbcDataSource.getPoolName(),
                 jdbcDataSource.getName()

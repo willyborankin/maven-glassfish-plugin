@@ -33,7 +33,6 @@ public class CreateConnectorPoolFactoryCommand extends InteractiveAsadminCommand
 	protected List<String> getParameters() {
         List<String> parameters = super.getParameters();
         parameters.addAll(Arrays.asList(
-                "--port", String.valueOf(domain.getAdminPort()),
                 "--raname", connectorConnectionFactory.getResourceAdapter(),
                 "--connectiondefinition", connectorConnectionFactory.getType()
         ));

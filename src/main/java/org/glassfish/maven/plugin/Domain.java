@@ -135,6 +135,11 @@ public class Domain {
 	 * @parameter
 	 */
 	private Set<String> jvmOptions;
+	
+	/**
+	 * @parameter
+	 */
+	private Set<String> deleteJvmOptions;
 
 	/**
 	 * @parameter
@@ -144,12 +149,6 @@ public class Domain {
 	/**
 	 */
 	private Auth auth;
-
-	/**
-	 * @parameter
-	 */
-	@Deprecated
-	private String profile;
 
 	/**
 	 * @parameter
@@ -180,6 +179,31 @@ public class Domain {
 	 * @parameter
 	 */
 	private String jmsAdministrators;
+
+	/**
+	 * @parameter
+	 */
+	private Set<ConfigReplacement> replacements;
+	
+	/**
+	 * @parameter
+	 */	
+	private Set<CopyFile> copyFiles;
+	
+	/**
+	 * @parameter
+	 */
+	private Set<AsadminChronTask> cronTasks;
+	
+	/**
+	 * @parameter
+	 */
+	private boolean savePassword;
+	
+	/**
+	 * @parameter
+	 */	
+	private Set<Property> loginProperties;
 
 	public String getName() {
 		return name;
@@ -317,14 +341,6 @@ public class Domain {
 		this.auth = auth;
 	}
 
-	public String getProfile() {
-		return profile;
-	}
-
-	public void setProfile(String profile) {
-		this.profile = profile;
-	}
-
 	public String getResourceDescriptor() {
 		return resourceDescriptor;
 	}
@@ -404,6 +420,55 @@ public class Domain {
 	public void setDeployables(Set<Deployable> deployables) {
 		this.deployables = deployables;
 	}
+	
+	public Set<String> getDeleteJvmOptions() {
+		return deleteJvmOptions;
+	}
+
+	public void setDeleteJvmOptions(Set<String> deleteJvmOptions) {
+		this.deleteJvmOptions = deleteJvmOptions;
+	}
+	
+	public Set<ConfigReplacement> getReplacements() {
+		return replacements;
+	}
+
+	public void setReplacements(Set<ConfigReplacement> replacements) {
+		this.replacements = replacements;
+	}
+	
+	public Set<CopyFile> getCopyFiles() {
+		return copyFiles;
+	}
+
+	public void setCopyFiles(Set<CopyFile> copyFiles) {
+		this.copyFiles = copyFiles;
+	}
+	
+
+	public Set<AsadminChronTask> getCronTasks() {
+		return cronTasks;
+	}
+
+	public void setCronTasks(Set<AsadminChronTask> cronTasks) {
+		this.cronTasks = cronTasks;
+	}
+	
+	public boolean isSavePassword() {
+		return savePassword;
+	}
+
+	public void setSavePassword(boolean savePassword) {
+		this.savePassword = savePassword;
+	}
+	
+	public Set<Property> getLoginProperties() {
+		return loginProperties;
+	}
+
+	public void setLoginProperties(Set<Property> loginProperties) {
+		this.loginProperties = loginProperties;
+	}
 
 	@Override
 	public String toString() {
@@ -414,7 +479,7 @@ public class Domain {
 				+ iiopsPort + ", iiopsmPort=" + iiopsmPort + ", jmsPort="
 				+ jmsPort + ", reuse=" + reuse + ", jvmOptions=" + jvmOptions
 				+ ", properties=" + properties + ", auth=" + auth
-				+ ", profile=" + profile + ", resourceDescriptor="
+				+ ", resourceDescriptor="
 				+ resourceDescriptor + ", resources=" + resources
 				+ ", adminPassword=" + adminPassword + "]";
 	}

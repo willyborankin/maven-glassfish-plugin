@@ -36,12 +36,6 @@
 
 package org.glassfish.maven.plugin.command;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugin.logging.Log;
-import org.glassfish.maven.plugin.GlassfishMojo;
-import org.glassfish.maven.plugin.Property;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +45,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugin.logging.Log;
+import org.glassfish.maven.plugin.GlassfishMojo;
+import org.glassfish.maven.plugin.Property;
 
 /**
  * Created by dwhitla at Apr 9, 2007 3:39:26 PM
@@ -75,27 +75,7 @@ public abstract class AsadminCommand {
     }
 
     public void execute(ProcessBuilder processBuilder) throws MojoExecutionException, MojoFailureException {
-        List<String> commandLine = new ArrayList<String>(getParameters());
-        File binDir = new File(sharedContext.getGlassfishDirectory(), "bin");
-        File asadmin = new File(binDir, "asadmin");
-
-        // bnevins 9/13/11 -- the install may have both asadmin and asadmin.bat
-        // if we are on Windows - then prefer the .bat file and explicitly set it.
-        // o/w windows will attempt running the UNIX script which is trouble!
-        // http://java.net/jira/browse/MAVEN_GLASSFISH_PLUGIN-5
-        if (System.getProperty("os.name").contains("indows")) {
-            File asadminBat = new File(binDir, "asadmin.bat");
-            if (asadminBat.exists()) {
-                asadmin = asadminBat;
-            }
-        }
-
-        commandLine.addAll(0, Arrays.asList(
-                asadmin.getAbsolutePath(),
-                getName(),
-                "--echo=" + sharedContext.isEcho(),
-                "--terse=" + sharedContext.isTerse()
-        ));
+        List<String> commandLine = prepareCommandLine();
 
         Log log = sharedContext.getLog();
         log.debug(commandLine.toString());
@@ -135,6 +115,31 @@ public abstract class AsadminCommand {
             throw new MojoExecutionException(getErrorMessage() + " Process was interrupted: " + e.getMessage());
         }
     }
+
+	public List<String> prepareCommandLine() {
+		List<String> commandLine = new ArrayList<String>(getParameters());
+        File binDir = new File(sharedContext.getGlassfishDirectory(), "bin");
+        File asadmin = new File(binDir, "asadmin");
+
+        // bnevins 9/13/11 -- the install may have both asadmin and asadmin.bat
+        // if we are on Windows - then prefer the .bat file and explicitly set it.
+        // o/w windows will attempt running the UNIX script which is trouble!
+        // http://java.net/jira/browse/MAVEN_GLASSFISH_PLUGIN-5
+        if (System.getProperty("os.name").contains("indows")) {
+            File asadminBat = new File(binDir, "asadmin.bat");
+            if (asadminBat.exists()) {
+                asadmin = asadminBat;
+            }
+        }
+
+        commandLine.addAll(0, Arrays.asList(
+                asadmin.getAbsolutePath(),
+                getName(),
+                "--echo=" + sharedContext.isEcho(),
+                "--terse=" + sharedContext.isTerse()
+        ));
+		return commandLine;
+	}
 
     protected String escape(String value, String chars) {
         return escape(value, chars, "\\\\");

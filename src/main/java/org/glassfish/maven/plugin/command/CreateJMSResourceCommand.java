@@ -40,8 +40,6 @@ import org.glassfish.maven.plugin.Domain;
 import org.glassfish.maven.plugin.GlassfishMojo;
 import org.glassfish.maven.plugin.JndiAwareResource;
 
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by dwhitla at Apr 10, 2007 10:09:52 AM
@@ -49,11 +47,8 @@ import java.util.List;
  * @author <a href="mailto:dave.whitla@ocean.net.au">Dave Whitla</a>
  * @version $Id: CreateJMSResourceCommand.java 0 Apr 10, 2007 10:09:52 AM dwhitla $
  */
-public class CreateJMSResourceCommand extends InteractiveAsadminCommand {
+public class CreateJMSResourceCommand extends CreateJNDIResource {
     
-    private Domain domain;
-    private JndiAwareResource resource;
-
     public CreateJMSResourceCommand(GlassfishMojo sharedContext, Domain domain, JndiAwareResource resource) {
         super(sharedContext);
         this.domain = domain;
@@ -62,17 +57,6 @@ public class CreateJMSResourceCommand extends InteractiveAsadminCommand {
 
     protected String getName() {
         return "create-jms-resource";
-    }
-
-    protected List<String> getParameters() {
-        List<String> parameters = super.getParameters();
-        parameters.addAll(Arrays.asList(
-                "--port", String.valueOf(domain.getAdminPort()),
-                "--restype", resource.getType().toString()
-        ));
-        addProperties(parameters, resource.getProperties());
-        parameters.add(resource.getJndiName());
-        return parameters;
     }
 
     protected String getErrorMessage() {

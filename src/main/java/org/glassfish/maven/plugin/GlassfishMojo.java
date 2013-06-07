@@ -48,6 +48,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.glassfish.maven.plugin.command.CopyFiles;
 
 
 /**
@@ -120,6 +121,8 @@ public abstract class GlassfishMojo extends AbstractMojo {
      * @readonly
      */     
     private MavenProject project;
+
+	private File tmpPassFile;
     
     protected String getPrefix() {
         return "glassfish";
@@ -222,7 +225,7 @@ public abstract class GlassfishMojo extends AbstractMojo {
         if (adminPassword != null && adminPassword.length() > 0) {
             // create temporary passfile
             try {
-                File tmpPassFile = File.createTempFile("mgfp", null);
+                tmpPassFile = File.createTempFile("mgfp", null);
                 tmpPassFile.deleteOnExit();
                 passwordFile = tmpPassFile.getAbsolutePath();
                 PrintWriter fileWriter = new PrintWriter(new FileWriter(tmpPassFile));
@@ -281,6 +284,18 @@ public abstract class GlassfishMojo extends AbstractMojo {
     public final void execute() throws MojoExecutionException, MojoFailureException {
         postConfig();
         doExecute();
+    }
+    
+    public void copyPasswordFile(String newDest) throws MojoFailureException{
+    	CopyFile copyFile = new CopyFile();
+    	copyFile.setSrcFile(passwordFile);
+    	copyFile.setDestFile(newDest);
+    	try{
+    		CopyFiles.copyFile(copyFile);
+    	}
+    	catch(Exception e){
+    		throw new MojoFailureException("cannot copy password file", e);
+    	}
     }
 
     protected abstract String getGoal();

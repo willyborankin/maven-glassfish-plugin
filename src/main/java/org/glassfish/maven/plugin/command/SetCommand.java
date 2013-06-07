@@ -36,12 +36,12 @@
 
 package org.glassfish.maven.plugin.command;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.glassfish.maven.plugin.Domain;
 import org.glassfish.maven.plugin.GlassfishMojo;
 import org.glassfish.maven.plugin.Property;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by dwhitla at Apr 9, 2007 4:04:41 PM
@@ -71,7 +71,6 @@ public class SetCommand extends InteractiveAsadminCommand {
     protected List<String> getParameters() {
         List<String> parameters = super.getParameters();
         parameters.addAll(Arrays.asList(
-                "--port", String.valueOf(domain.getAdminPort()),
                 property.toString()
         ));
         return parameters;

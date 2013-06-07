@@ -62,7 +62,7 @@ public class RedeployGlassfishMojo extends DeploymentGlassfishMojo {
 	public void doExecute() throws MojoExecutionException, MojoFailureException {
         ProcessBuilder processBuilder = new ProcessBuilder();
         for (Component component : getComponents()) {
-            new UndeployCommand(this, domain, component).execute(processBuilder);
+            new UndeployCommand(this, component).execute(processBuilder);
             new DeployCommand(this, domain, component).execute(processBuilder);
         }
     }

@@ -36,11 +36,11 @@
 
 package org.glassfish.maven.plugin.command;
 
-import org.glassfish.maven.plugin.Domain;
-import org.glassfish.maven.plugin.GlassfishMojo;
-
 import java.util.Arrays;
 import java.util.List;
+
+import org.glassfish.maven.plugin.Domain;
+import org.glassfish.maven.plugin.GlassfishMojo;
 
 /**
  * Created by dwhitla at Apr 9, 2007 4:26:46 PM
@@ -67,7 +67,6 @@ public class AddResourcesCommand extends InteractiveAsadminCommand {
         }
         List<String> parameters = super.getParameters();
         parameters.addAll(Arrays.asList(
-                "--port", String.valueOf(domain.getAdminPort()),
                 "--target", "domain",
                 domain.getResourceDescriptor()
         ));

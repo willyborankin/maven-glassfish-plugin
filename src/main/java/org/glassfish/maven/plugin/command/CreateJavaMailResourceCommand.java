@@ -27,7 +27,6 @@ public class CreateJavaMailResourceCommand extends InteractiveAsadminCommand {
 	protected List<String> getParameters() {
 		List<String> parameters = super.getParameters();
         parameters.addAll(Arrays.asList(
-                "--port", String.valueOf(domain.getAdminPort()),
                 "--mailhost", mailResource.getMailHost(),
                 "--mailuser", mailResource.getMailUser(),
                 "--fromaddress", mailResource.getFromAddress(),

@@ -36,12 +36,12 @@
 
 package org.glassfish.maven.plugin.command;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.glassfish.maven.plugin.Domain;
 import org.glassfish.maven.plugin.GlassfishMojo;
 import org.glassfish.maven.plugin.MessageSecurityProvider;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by dwhitla at Apr 10, 2007 12:09:39 AM
@@ -67,9 +67,7 @@ public class CreateMessageSecurityProviderCommand extends InteractiveAsadminComm
     protected List<String> getParameters() {
         List<String> parameters = super.getParameters();
         parameters.addAll(Arrays.asList(
-                "--host", domain.getHost(),
                 "--target", "server",
-                "--port", String.valueOf(domain.getAdminPort()),
                 "--classname", provider.getClassName(),
                 "--providertype", provider.getType(),
                 "--layer", provider.getLayer()

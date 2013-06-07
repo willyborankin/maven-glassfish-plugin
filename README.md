@@ -9,11 +9,8 @@ willyborankin
 Full Example:
 
 <project>
-    ...
     <build>
-        ...
         <plugins>
-            ...
             <plugin>
                 <groupId>org.glassfish.maven.plugin</groupId>
                 <artifactId>maven-glassfish-plugin</artifactId>
@@ -360,9 +357,6 @@ Full Example:
                     </components>
                 </configuration>
             </plugin>
-            ...
         </plugins>
-        ...
     </build>
-    ...
 </project>

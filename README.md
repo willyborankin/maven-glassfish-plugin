@@ -7,9 +7,7 @@ dwhitla
 willyborankin
 
 Full Example:
-<?xml version="1.0" encoding="UTF-8"?>
-...
-
+  ```xml
 <plugin>
 	<groupId>org.glassfish.maven.plugin</groupId>
 	<artifactId>maven-glassfish-plugin</artifactId>
@@ -84,61 +82,12 @@ Full Example:
 				</realm>
 				<!-- New feature -->
 				<loginModuleParams>
-					<loginModuleParam>ru.openback.authentification.OpenLoginModule
-						required
-					</loginModuleParam>
-
-					<loginModuleParam>openLoginModule.users.crmUser.name=crmUser
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.crmUser.MD5password=
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.crmUser.groups=SomeGroup
-					</loginModuleParam>
-
-					<loginModuleParam>openLoginModule.users.jmsGuest.name=guest
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.jmsGuest.MD5password=
-					</loginModuleParam>
-
-					<loginModuleParam>openLoginModule.users.jmsAdmin.name=admin
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.jmsAdmin.MD5password=
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.jmsAdmin.groups=admin
-					</loginModuleParam>
-
-					<loginModuleParam>openLoginModule.users.OSGi.name=OSGi
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.OSGi.MD5password=
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.OSGi.groups=OSGi
-					</loginModuleParam>
-
-					<loginModuleParam>openLoginModule.users.developerTest.name=developer
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.developerTest.MD5password=
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.developerTest.groups=NewBackAllowedUsers
-					</loginModuleParam>
-
-					<loginModuleParam>openLoginModule.users.developerSuper.name=lenin
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.developerSuper.MD5password=
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.developerSuper.groups=NewBackAllowedUsers
-					</loginModuleParam>
-
-					<loginModuleParam>openLoginModule.users.dbIntegration.name=aliendb
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.dbIntegration.MD5password=
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.users.dbIntegration.groups=NewBackAllowedUsers
-					</loginModuleParam>
-
-					<loginModuleParam>openLoginModule.developmentMode=${open.login.developmentMode}
-					</loginModuleParam>
-					<loginModuleParam>openLoginModule.allowAll=${open.login.allowOtherGroups};
-					</loginModuleParam>
+					<loginModuleParam>ru.openback.authentification.OpenLoginModulerequired</loginModuleParam>
+					<loginModuleParam>openLoginModule.users.crmUser.name=crmUser</loginModuleParam>
+					<loginModuleParam>openLoginModule.users.crmUser.MD5password=</loginModuleParam>
+					<loginModuleParam>openLoginModule.users.crmUser.groups=SomeGroup</loginModuleParam>
+					<loginModuleParam>openLoginModule.users.jmsGuest.name=guest</loginModuleParam>
+					<loginModuleParam>openLoginModule.users.jmsGuest.MD5password=</loginModuleParam>
 				</loginModuleParams>
 			</auth>
 			<!-- <resourceDescriptor>path/to/resources.xml</resourceDescriptor> -->

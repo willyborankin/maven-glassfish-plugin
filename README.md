@@ -8,41 +8,41 @@ willyborankin
 
 Full Example:
 
+<?xml version="1.0" encoding="UTF-8"?>
 <project>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.glassfish.maven.plugin</groupId>
-                <artifactId>maven-glassfish-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <glassfishDirectory>${glassfish.home}</glassfishDirectory>
-                    <user>${domain.username}</user>
-                    <adminPassword>${domain.password}</adminPassword>
-                    <!-- <passFile>path/to/asadmin/passfile</passFile> -->
-                    <autoCreate>true</autoCreate>
-                    <debug>true</debug>
-                    <echo>false</echo>
-                    <terse>true</terse>
-                    <skip>${test.int.skip}</skip>
-                    <domain>
-                        <name>${project.artifactId}</name>
-                        <adminPort>4848</adminPort>
-                        <httpPort>8080</httpPort>
-                        <httpsPort>8443</httpsPort>
-                        <iiopPort>3700</iiopPort>
-                        <jmsPort>7676</jmsPort>
-                        <reuse>false</reuse>
-                        <jvmOptions>
-                            <option>-Djava.security.auth.login.config=${project.build.testOutputDirectory}/login.conf</option>
-                        </jvmOptions>
-                        <properties>
-                            <property>
-                                <name>server.log-service.file</name>
-                                <value>${domain.log.dir}/server.log</value>
-                            </property>
-                        </properties>
-                        <!-- New feature -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.glassfish.maven.plugin</groupId>
+				<artifactId>maven-glassfish-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<glassfishDirectory>${glassfish.home}</glassfishDirectory>
+					<user>${domain.username}</user>
+					<adminPassword>${domain.password}</adminPassword>
+					<autoCreate>true</autoCreate>
+					<debug>true</debug>
+					<echo>false</echo>
+					<terse>true</terse>
+					<skip>${test.int.skip}</skip>
+					<domain>
+						<name>${project.artifactId}</name>
+						<adminPort>4848</adminPort>
+						<httpPort>8080</httpPort>
+						<httpsPort>8443</httpsPort>
+						<iiopPort>3700</iiopPort>
+						<jmsPort>7676</jmsPort>
+						<reuse>false</reuse>
+						<jvmOptions>
+							<option>-Djava.security.auth.login.config=${project.build.testOutputDirectory}/login.conf</option>
+						</jvmOptions>
+						<properties>
+							<property>
+								<name>server.log-service.file</name>
+								<value>${domain.log.dir}/server.log</value>
+							</property>
+						</properties>
+						<!-- New feature -->
 						<externalLibraries>
 							<externalLibrary>
 								<groupId>net.sourceforge.jtds</groupId>
@@ -67,24 +67,25 @@ Full Example:
 								<artifactId>jcr</artifactId>
 							</externalLibrary>
 						</externalLibraries>
-                        <auth>
-                            <realm>
-                                <name>testRealm</name>
-                                <className>com.sun.enterprise.security.auth.realm.file.FileRealm</className>
-                                <properties>
-                                    <property>
-                                        <name>jaas-context</name>
-                                        <value>test</value>
-                                    </property>
-                                    <property>
-                                        <name>file</name>
-                                        <value>${project.build.outputDirectory}/keyfile</value>
-                                    </property>
-                                </properties>
-                            </realm>
-                            <!-- New feature -->
+						<auth>
+							<realm>
+								<name>testRealm</name>
+								<className>com.sun.enterprise.security.auth.realm.file.FileRealm</className>
+								<properties>
+									<property>
+										<name>jaas-context</name>
+										<value>test</value>
+									</property>
+									<property>
+										<name>file</name>
+										<value>${project.build.outputDirectory}/keyfile</value>
+									</property>
+								</properties>
+							</realm>
+							<!-- New feature -->
 							<loginModuleParams>
-								<loginModuleParam>ru.openback.authentification.OpenLoginModule required</loginModuleParam>
+								<loginModuleParam>ru.openback.authentification.OpenLoginModule
+									required</loginModuleParam>
 
 								<loginModuleParam>openLoginModule.users.crmUser.name=crmUser</loginModuleParam>
 								<loginModuleParam>openLoginModule.users.crmUser.MD5password=</loginModuleParam>
@@ -117,9 +118,9 @@ Full Example:
 								<loginModuleParam>openLoginModule.allowAll=${open.login.allowOtherGroups};</loginModuleParam>
 							</loginModuleParams>
 						</auth>
-                        <!-- <resourceDescriptor>path/to/resources.xml</resourceDescriptor> -->
-                        <resources>
-                        	<!-- New feature -->
+						<!-- <resourceDescriptor>path/to/resources.xml</resourceDescriptor> -->
+						<resources>
+							<!-- New feature -->
 							<ConnectorResource>
 								<jndiName>jcr/OpenBackRepository</jndiName>
 								<connectorConnectionFactory>
@@ -135,10 +136,10 @@ Full Example:
 											<name>ConfigFile</name>
 											<value>${user.home}/repository${jcr.repository.path.suffix}/repository.xml</value>
 										</property>
-									</properties>		
+									</properties>
 								</connectorConnectionFactory>
-							</ConnectorResource>	
-                        	<!-- New feature -->
+							</ConnectorResource>
+							<!-- New feature -->
 							<javaMailResource>
 								<name>mail/newhope</name>
 								<mailHost>mail.open.ru</mailHost>
@@ -188,95 +189,95 @@ Full Example:
 										<value>${environment}</value>
 									</property>
 								</properties>
-						</propertiesJndiResource>
-						<!-- New Feature -->
-						<deployables>
-							<deployable>
-								<groupId>org.apache.jackrabbit</groupId>
-								<artifactId>jackrabbit-jca</artifactId>
-							</deployable>	
-						</deployables>
-						<connectionFactory>
-                                <jndiName>jms/testQueueConnectionFactory</jndiName>
-                                <type>queueConnectionFactory</type>
-                                <properties>
-                                    <property>
-                                        <name>UserName</name>
-                                        <value>guest</value>
-                                    </property>
-                                    <property>
-                                        <name>Password</name>
-                                        <value>guest</value>
-                                    </property>
-                                    <property>
-                                        <name>AddressList</name>
-                                        <value>localhost:7676</value>
-                                    </property>
-                                </properties>
-                            </connectionFactory>
-                            <jmsTopic>
-                                <jndiName>jms/testTopic</jndiName>
-                                <destinationName>TestTopic</destinationName>
-                                <connectionFactory>
-                                    <jndiName>jms/testTopicConnectionFactory</jndiName>
-                                    <properties>
-                                        <property>
-                                            <name>UserName</name>
-                                            <value>guest</value>
-                                        </property>
-                                        <property>
-                                            <name>Password</name>
-                                            <value>guest</value>
-                                        </property>
-                                        <property>
-                                            <name>AddressList</name>
-                                            <value>localhost:7676</value>
-                                        </property>
-                                    </properties>
-                                </connectionFactory>
-                            </jmsTopic>
-                            <jdbcDataSource>
-                                <name>SomeDS</name>
-                                <type>connectionPoolDataSource</type>
-                                <poolName>SomePool</poolName>
-                                <className>com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource</className>
-                                <description>Some JDBC Connection Pool</description>
-                                <allowNonComponentCallers>false</allowNonComponentCallers>
-                                <validateConnections>true</validateConnections>
-                                <validationMethod>metaData</validationMethod>
-                                <properties>
-                                    <property>
-                                        <name>portNumber</name>
-                                        <value>3306</value>
-                                    </property>
-                                    <property>
-                                        <name>password</name>
-                                        <value>somePassword</value>
-                                    </property>
-                                    <property>
-                                        <name>user</name>
-                                        <value>someUser</value>
-                                    </property>
-                                    <property>
-                                        <name>serverName</name>
-                                        <value>some.host.somewhere</value>
-                                    </property>
-                                    <property>
-                                        <name>databaseName</name>
-                                        <value>SomeDB</value>
-                                    </property>
-                                </properties>
-                            </jdbcDataSource>
-                        </resources>
+							</propertiesJndiResource>
+							<!-- New Feature -->
+							<deployables>
+								<deployable>
+									<groupId>org.apache.jackrabbit</groupId>
+									<artifactId>jackrabbit-jca</artifactId>
+								</deployable>
+							</deployables>
+							<connectionFactory>
+								<jndiName>jms/testQueueConnectionFactory</jndiName>
+								<type>queueConnectionFactory</type>
+								<properties>
+									<property>
+										<name>UserName</name>
+										<value>guest</value>
+									</property>
+									<property>
+										<name>Password</name>
+										<value>guest</value>
+									</property>
+									<property>
+										<name>AddressList</name>
+										<value>localhost:7676</value>
+									</property>
+								</properties>
+							</connectionFactory>
+							<jmsTopic>
+								<jndiName>jms/testTopic</jndiName>
+								<destinationName>TestTopic</destinationName>
+								<connectionFactory>
+									<jndiName>jms/testTopicConnectionFactory</jndiName>
+									<properties>
+										<property>
+											<name>UserName</name>
+											<value>guest</value>
+										</property>
+										<property>
+											<name>Password</name>
+											<value>guest</value>
+										</property>
+										<property>
+											<name>AddressList</name>
+											<value>localhost:7676</value>
+										</property>
+									</properties>
+								</connectionFactory>
+							</jmsTopic>
+							<jdbcDataSource>
+								<name>SomeDS</name>
+								<type>connectionPoolDataSource</type>
+								<poolName>SomePool</poolName>
+								<className>com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource</className>
+								<description>Some JDBC Connection Pool</description>
+								<allowNonComponentCallers>false</allowNonComponentCallers>
+								<validateConnections>true</validateConnections>
+								<validationMethod>metaData</validationMethod>
+								<properties>
+									<property>
+										<name>portNumber</name>
+										<value>3306</value>
+									</property>
+									<property>
+										<name>password</name>
+										<value>somePassword</value>
+									</property>
+									<property>
+										<name>user</name>
+										<value>someUser</value>
+									</property>
+									<property>
+										<name>serverName</name>
+										<value>some.host.somewhere</value>
+									</property>
+									<property>
+										<name>databaseName</name>
+										<value>SomeDB</value>
+									</property>
+								</properties>
+							</jdbcDataSource>
+						</resources>
 						<!-- New features -->
 						<deleteJvmOptions>
-							<option>-Xmx512m</option> 
+							<option>-Xmx512m</option>
 							<option>-XX:MaxPermSize=192m</option>
 							<option>-client</option>
-						</deleteJvmOptions>		
+						</deleteJvmOptions>
 						<jvmOptions>
-							<option>-Xmx${glassfish.jvm.max.heap.size}</option> 
-							<option>-XX:MaxPermSize=${glassfish.jvm.max.perm.size}</option> 
+							<option>-Xmx${glassfish.jvm.max.heap.size}</option>
+							<option>-XX:MaxPermSize=${glassfish.jvm.max.perm.size}</option>
 							<option>-Dlogback.configurationFile=${com.sun.aas.instanceRoot}/applications/open-services-ear/open-spi-services_war/WEB-INF/classes/logback.xml</option>
 							<option>-server</option>
 						</jvmOptions>
@@ -288,7 +289,7 @@ Full Example:
 							<replacement>
 								<pattern>s1as</pattern>
 								<replacement>${glassfish.certificate.name}</replacement>
-							</replacement>							
+							</replacement>
 						</replacements>
 						<copyFiles>
 							<copyFile>
@@ -304,13 +305,13 @@ Full Example:
 							</cronTask>
 						</cronTasks>
 						<deleteJvmOptions>
-							<option>-Xmx512m</option> 
+							<option>-Xmx512m</option>
 							<option>-XX:MaxPermSize=192m</option>
 							<option>-client</option>
-						</deleteJvmOptions>		
+						</deleteJvmOptions>
 						<jvmOptions>
-							<option>-Xmx${glassfish.jvm.max.heap.size}</option> 
-							<option>-XX:MaxPermSize=${glassfish.jvm.max.perm.size}</option> 
+							<option>-Xmx${glassfish.jvm.max.heap.size}</option>
+							<option>-XX:MaxPermSize=${glassfish.jvm.max.perm.size}</option>
 							<option>-Dlogback.configurationFile=${com.sun.aas.instanceRoot}/applications/open-services-ear/open-spi-services_war/WEB-INF/classes/logback.xml</option>
 							<option>-server</option>
 						</jvmOptions>
@@ -322,7 +323,7 @@ Full Example:
 							<replacement>
 								<pattern>s1as</pattern>
 								<replacement>${glassfish.certificate.name}</replacement>
-							</replacement>							
+							</replacement>
 						</replacements>
 						<copyFiles>
 							<copyFile>
@@ -348,15 +349,15 @@ Full Example:
 								<value>2147483648</value>
 							</property>
 						</loginProperties>
-                    </domain>
-                    <components>
-                        <component>
-                            <name>${project.artifactId}</name>
-                            <artifact>${project.build.directory}/artifacts/${project.build.finalName}.war</artifact>
-                        </component>
-                    </components>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+					</domain>
+					<components>
+						<component>
+							<name>${project.artifactId}</name>
+							<artifact>${project.build.directory}/artifacts/${project.build.finalName}.war</artifact>
+						</component>
+					</components>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
